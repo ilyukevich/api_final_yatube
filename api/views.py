@@ -35,7 +35,6 @@ class CommentViewSet(viewsets.ModelViewSet):
     """ViewSets for Comment.
     overridden 'get_queryset', 'perform_create method'."""
 
-    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
