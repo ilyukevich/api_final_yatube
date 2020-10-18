@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, filters
+from rest_framework import viewsets, filters, mixins
 from rest_framework.permissions import (
     IsAuthenticated,
     IsAuthenticatedOrReadOnly
@@ -52,9 +52,9 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
 
-class FollowViewSet(viewsets.ModelViewSet):
-    """ViewSets for Follow.
-        overridden 'perform_create' method."""
+class FollowViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
+    """inherit from CreateModelMixin,
+    ListModelMixin and GenericViewSet"""
 
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer
@@ -69,8 +69,9 @@ class FollowViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
 
-class GroupViewSet(viewsets.ModelViewSet):
-    """ViewSets for Group"""
+class GroupViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
+    """inherit from CreateModelMixin,
+    ListModelMixin and GenericViewSet"""
 
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
